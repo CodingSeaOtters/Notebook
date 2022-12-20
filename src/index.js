@@ -1,3 +1,3 @@
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 
-ReactDOM.render(<h1>Hello, Stranger</h1>, document.getElementById("root"))
+ReactDOM.createRoot(document.getElementById("root")).render(<h1>Hello, Stranger</h1>)
