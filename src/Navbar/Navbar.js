@@ -4,7 +4,11 @@ import NavbarLoggedOut from "./NavbarLoggedOut"
 export default class Navbar extends React.Component {
     render(){
         return (
-            (this.props.loggedIn && <NavbarLoggedIn />) || <NavbarLoggedOut logIn={this.props.logIn} />
+            (this.props.loggedIn &&
+                <NavbarLoggedIn user={this.state.user} />) ||
+            <NavbarLoggedOut changeRegisterTrue={this.props.changeRegisterTrue}
+                             changeRegisterFalse={this.props.changeRegisterFalse}
+            />
 
         );
     }

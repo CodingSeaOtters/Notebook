@@ -5,8 +5,8 @@ export default class NavbarLoggedOut extends React.Component {
     render() {
         return (
             <div className="Navbar">
-                <button onClick={() => this.props.logIn("Alfred")}>Registrieren</button>
-                <button>Anmelden</button>
+                <button name="register" onClick={this.props.changeRegisterTrue}>Registrieren</button>
+                <button name="signIn" onClick={this.props.changeRegisterFalse}>Anmelden</button>
             </div>
         )
     }
