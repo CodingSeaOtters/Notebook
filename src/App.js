@@ -2,16 +2,15 @@ import React from "react";
 import Navbar from "./Navbar/Navbar"
 import Main from "./Main"
 
-
 export default class App extends React.Component {
     state = {
         loggedIn: false,
         register: false,
         user: {
-            userName: "",
+            userName: '',
             userId: 0,
-            password: "",
-            repeatPassword: "",
+            password: '',
+            repeatPassword: '',
             boards: null,
         }
     }
@@ -35,21 +34,19 @@ export default class App extends React.Component {
         fetch(`http://localhost:8080/auth/login`, requestOptions)
             .then(response => response.text())
             .then(result => {
-                console.log(result);
                 localStorage.setItem("JWT", result);
+                console.dir("Logged in")
+                console.dir(this.state.user)
                 this.getUser();
                 this.changeLoggedIn();
             })
-
             .catch(error => console.log('error', error));
     }
 
-
     getUser = () => {
         const myHeaders = new Headers();
-        myHeaders.append("Bearer ", localStorage.getItem("JWT"));
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("JWT"));
         myHeaders.append("Content-Type", "application/json");
-
 
         const requestOptions = {
             method: 'GET',
@@ -57,10 +54,13 @@ export default class App extends React.Component {
             redirect: 'follow'
         };
 
-        fetch(`http://localhost:8080/login`, requestOptions)
+        const username = this.state.user.userName
+
+        fetch(`http://localhost:8080/user/find/${username}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 this.setState({
+
                     user: {
                         userName: result.userName,
                         userId: result.id,
@@ -92,16 +92,6 @@ export default class App extends React.Component {
 
         if (this.state.user.password === this.state.user.repeatPassword) {
             fetch("http://localhost:8080/user", requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    this.setState({
-                        user: {
-                            userId: result.id,
-                            boards: result.boards
-                        }
-                    })
-
-                })
                 .catch(error => console.log('error', error));
         }
     }
@@ -113,10 +103,11 @@ export default class App extends React.Component {
                 ...prevState.user,
                 [name]: value
             }
-        }))
-        console.log(this.state.user.userName, this.state.user.password)
-    }
 
+
+        }))
+        console.dir(this.state)
+    }
 
     changeLoggedIn = () => {
         this.setState(prevState => ({loggedIn: !prevState.loggedIn}));
@@ -129,7 +120,6 @@ export default class App extends React.Component {
     changeRegisterFalse = () => {
         this.setState(({register: false}))
     }
-
 
     render() {
         return (

@@ -5,7 +5,7 @@ export default class Navbar extends React.Component {
     render(){
         return (
             (this.props.loggedIn &&
-                <NavbarLoggedIn user={this.state.user} />) ||
+                <NavbarLoggedIn user={this.props.user} />) ||
             <NavbarLoggedOut changeRegisterTrue={this.props.changeRegisterTrue}
                              changeRegisterFalse={this.props.changeRegisterFalse}
             />
