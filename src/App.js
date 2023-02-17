@@ -11,7 +11,7 @@ export default class App extends React.Component {
             userId: 0,
             password: '',
             repeatPassword: '',
-            boards: null,
+            boards: [],
         }
     }
 
@@ -35,10 +35,8 @@ export default class App extends React.Component {
             .then(response => response.text())
             .then(result => {
                 localStorage.setItem("JWT", result);
-                console.dir("Logged in")
-                console.dir(this.state.user)
                 this.getUser();
-                this.changeLoggedIn();
+
             })
             .catch(error => console.log('error', error));
     }
@@ -60,16 +58,12 @@ export default class App extends React.Component {
             .then(response => response.json())
             .then(result => {
                 this.setState({
-
                     user: {
                         userName: result.userName,
                         userId: result.id,
                         boards: result.boards
                     }
-
-                })
-
-
+                }, () => this.changeLoggedIn())
             })
             .catch(error => console.log('error', error));
     }
@@ -103,10 +97,7 @@ export default class App extends React.Component {
                 ...prevState.user,
                 [name]: value
             }
-
-
         }))
-        console.dir(this.state)
     }
 
     changeLoggedIn = () => {
