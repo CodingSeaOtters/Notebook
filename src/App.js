@@ -7,13 +7,43 @@ export default class App extends React.Component {
         loggedIn: false,
         register: false,
         user: {
-            userName: '',
-            userId: 0,
+            userName:"",
+            userId: localStorage.getItem("userId")  || 0,
             password: '',
             repeatPassword: '',
             boards: [],
         }
     }
+
+    // componentDidMount() {
+    //     if(localStorage.getItem("JWT")){
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("JWT"));
+    //         myHeaders.append("Content-Type", "application/json");
+    //
+    //         const requestOptions = {
+    //             method: 'GET',
+    //             headers: myHeaders,
+    //             redirect: 'follow'
+    //         };
+    //         const userId = this.state.user.userId
+    //         fetch(`http://localhost:8080/auth/refresh/${userId}`, requestOptions)
+    //             .then(response => response.json())
+    //             .then(result => {
+    //                 if(result.status === 202){
+    //                     this.changeLoggedIn();
+    //                     this.getUser();
+    //                 } else if (result.status === 401){
+    //                     console.log("Unauthorized access")
+    //                 }
+    //                 else{
+    //                     this.changeLoggedIn();
+    //                     localStorage.setItem("JWT", result);
+    //                 }
+    //             })
+    //             .catch(error => console.log('error', error));
+    //     }
+    // }
 
     logIn = () => {
         const myHeaders = new Headers();
@@ -57,13 +87,17 @@ export default class App extends React.Component {
         fetch(`http://localhost:8080/user/find/${username}`, requestOptions)
             .then(response => response.json())
             .then(result => {
+                localStorage.setItem("userId", result.id);
                 this.setState({
                     user: {
                         userName: result.userName,
                         userId: result.id,
                         boards: result.boards
                     }
-                }, () => this.changeLoggedIn())
+                }, () => {
+                    this.changeLoggedIn()
+                    this.forceUpdate()
+                })
             })
             .catch(error => console.log('error', error));
     }
@@ -112,6 +146,22 @@ export default class App extends React.Component {
         this.setState(({register: false}))
     }
 
+    logOut = () => {
+        this.changeLoggedIn();
+        localStorage.removeItem("JWT");
+        localStorage.removeItem("userId");
+        this.setState(prevState => ({
+          ...prevState,
+          user: {
+              userName:"",
+              userId: 0,
+              password: '',
+              repeatPassword: '',
+              boards: [],
+          }
+        }))
+    }
+
     render() {
         return (
             <div>
@@ -121,6 +171,7 @@ export default class App extends React.Component {
                     user={this.state.user}
                     changeRegisterTrue={this.changeRegisterTrue}
                     changeRegisterFalse={this.changeRegisterFalse}
+                    logOut={this.logOut}
 
                 />
                 <Main

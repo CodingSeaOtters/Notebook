@@ -1,12 +1,20 @@
 import React from "react";
 
-export default class Board extends React.Component {
+export default class Note extends React.Component{
+
     state = {
-        boardId: 0,
-        name: "",
-    };
+        title: "",
+        text: "",
+        startDate:"",
+        endDate: ""
+    }
 
     componentDidMount() {
+        this.getNote()
+    }
+
+
+    getNote = () => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("JWT"));
         myHeaders.append("Content-Type", "application/json");
@@ -17,22 +25,32 @@ export default class Board extends React.Component {
             redirect: "follow",
         };
 
-        fetch(`http://localhost:8080/board/${this.props.boardId}`, requestOptions)
+        fetch(`http://localhost:8080/note/${this.props.noteId}`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 this.setState({
-                    name: result.boardName,
-                    boardId: result.boardId
+                    title: result.title,
+                    text: result.content,
+                    startDate: result.startDate,
+                    endDate: result.endDate
                 });
             })
             .catch((error) => console.log("error", error));
+
+
     }
 
     render() {
         return (
-            <div onClick={() => this.props.changeClicked(this.props.boardId, this.state.name)}>
-                <h4>{this.state.name}</h4>
+            <div>
+                <h5>{this.state.title}</h5>
+                <p>{this.state.text}</p>
+                <p>{this.state.startDate}</p>
+                <p>{this.state.endDate}</p>
             </div>
         );
     }
+
+
+
 }

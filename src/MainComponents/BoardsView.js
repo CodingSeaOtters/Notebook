@@ -1,9 +1,7 @@
 import React from "react";
 import Board from "./Board";
 
-
 export default class BoardsView extends React.Component {
-
     state = {
         boards: this.props.user.boards,
         input: "",
@@ -41,8 +39,6 @@ export default class BoardsView extends React.Component {
                 this.refreshBoards();
             })
             .catch(error => console.log('error', error));
-
-
     }
 
     refreshBoards = () => {
@@ -74,19 +70,47 @@ export default class BoardsView extends React.Component {
     }
 
     updateMappedBoards = () => {
-        this.mappedBoards = this.state.boards.map(board => <Board changeClicked={this.props.changeClicked} key={Math.random()} boardId={board}/>);
+        this.mappedBoards = this.state.boards.map(board => (
+            <div className="card shadow-sm my-3">
+                <div className="card-body">
+                    <Board changeClicked={this.props.changeClicked} key={Math.random()}
+                           boardId={board}
+                    />
+                </div>
+            </div>));
         this.forceUpdate();
     }
 
-    mappedBoards = this.state.boards.map(board => <Board changeClicked={this.props.changeClicked} key={Math.random()} boardId={board}/>)
+    mappedBoards = this.state.boards.map(board => (
+        <div className="card shadow-sm my-3">
+            <div className="card-body">
+                <Board changeClicked={this.props.changeClicked} key={Math.random()}
+                       boardId={board}
+                />
+            </div>
+        </div>))
 
     render() {
         return (
-            <div>
-                {this.mappedBoards}
-                <input value={this.state.input || ''} placeholder="Neues Board" onChange={this.changeInputState}/>
-                <button onClick={this.createBoard}>Neues Board erstellen</button>
+            <div className="container mt-5 ">
+                <div className="row justify-content-center">
+                    <div className="col-md-6">
+                        <div className="card shadow">
+                            <div className="card-body">
+                                {this.mappedBoards}
+                                <div className="input-group mb-3">
+                                    <input type="text" className="form-control" value={this.state.input || ''}
+                                           placeholder="Neues Board" onChange={this.changeInputState}/>
+                                    <button className="btn btn-outline-secondary" className="btn btn-danger"
+                                            onClick={this.createBoard} type="button">Button
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         )
     }
 }
