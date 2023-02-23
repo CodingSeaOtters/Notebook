@@ -19,26 +19,31 @@ export default class BoardsView extends React.Component {
     }
 
     createBoard = () => {
-        const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("JWT"));
-        myHeaders.append("Content-Type", "application/json");
+        if(this.state.input !== "") {
 
-        const raw = JSON.stringify({
-            boardName: this.state.input,
-        })
+            const myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + localStorage.getItem("JWT"));
+            myHeaders.append("Content-Type", "application/json");
 
-        const requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-
-        fetch(`http://localhost:8080/board/${this.props.user.userId}`, requestOptions)
-            .then(response => {
-                this.refreshBoards();
+            const raw = JSON.stringify({
+                boardName: this.state.input,
             })
-            .catch(error => console.log('error', error));
+
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch(`http://localhost:8080/board/${this.props.user.userId}`, requestOptions)
+                .then(response => {
+                    this.refreshBoards();
+                })
+                .catch(error => console.log('error', error));
+        } else {
+            alert("Bitte namen eingeben")
+        }
     }
 
     refreshBoards = () => {
@@ -73,7 +78,7 @@ export default class BoardsView extends React.Component {
         this.mappedBoards = this.state.boards.map(board => (
             <div className="card shadow-sm my-3">
                 <div className="card-body">
-                    <Board changeClicked={this.props.changeClicked} key={Math.random()}
+                    <Board refreshBoards={this.refreshBoards} changeClicked={this.props.changeClicked} key={Math.random()}
                            boardId={board}
                     />
                 </div>
@@ -102,7 +107,7 @@ export default class BoardsView extends React.Component {
                                     <input type="text" className="form-control" value={this.state.input || ''}
                                            placeholder="Neues Board" onChange={this.changeInputState}/>
                                     <button className="btn btn-outline-secondary" className="btn btn-danger"
-                                            onClick={this.createBoard} type="button">Button
+                                            onClick={this.createBoard} type="button">Hinzufügen
                                     </button>
                                 </div>
                             </div>
