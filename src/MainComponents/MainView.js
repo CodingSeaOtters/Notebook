@@ -65,9 +65,9 @@ export default class MainView extends React.Component {
 
     mapNotes = () => {
         this.mappedNotes = this.state.notes.map(n => (
-            <div className="card w-25 mx-2 align-items-center">
+            <div className="card w-25 mx-2">
                 <div className="card-body">
-                    <Note key={Math.random()} noteId={n}/>
+                    <Note getNotes={this.getNotes} key={Math.random()} noteId={n}/>
                 </div>
             </div>))
         this.forceUpdate()
@@ -127,8 +127,8 @@ export default class MainView extends React.Component {
                     onClose={this.onClose}
 
                 />
-                <div className="container align-items-center text-center">
-                    <h4>Notizen</h4>
+                <div className="align-items-center">
+                    <h4  className="text-center mb-4 fs-3">Notizen</h4>
                     <div className="row row-cols-3 g-4 justify-content-center">
                         {this.mappedNotes}
                     </div>

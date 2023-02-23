@@ -37,13 +37,17 @@ export default class BoardsView extends React.Component {
             };
 
             fetch(`http://localhost:8080/board/${this.props.user.userId}`, requestOptions)
-                .then(response => {
+                .then(() => {
                     this.refreshBoards();
                 })
                 .catch(error => console.log('error', error));
         } else {
             alert("Bitte namen eingeben")
         }
+    }
+
+    componentDidMount() {
+        this.refreshBoards();
     }
 
     refreshBoards = () => {
@@ -106,7 +110,7 @@ export default class BoardsView extends React.Component {
                                 <div className="input-group mb-3">
                                     <input type="text" className="form-control" value={this.state.input || ''}
                                            placeholder="Neues Board" onChange={this.changeInputState}/>
-                                    <button className="btn btn-outline-secondary" className="btn btn-danger"
+                                    <button className=" btn btn-danger text-white "
                                             onClick={this.createBoard} type="button">Hinzufügen
                                     </button>
                                 </div>

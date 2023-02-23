@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 
 export default class ChangeBoardDialog extends React.Component{
     render() {
-        const {open, name, changeName, onClose, changeOpen, confirmBoard}  = this.props;
+        const {open, name, changeName, onClose, confirmBoard}  = this.props;
 
         return (
 

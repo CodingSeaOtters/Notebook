@@ -76,8 +76,6 @@ export default class Board extends React.Component {
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("JWT"));
         myHeaders.append("Content-Type", "application/json");
 
-
-
         const requestOptions = {
             method: 'DELETE',
             headers: myHeaders,
@@ -100,7 +98,7 @@ export default class Board extends React.Component {
                     <div className="dropdown ms-auto">
                         <button className="btn btn-danger btn-sm dropdown-toggle-split" type="button"
                                 data-bs-toggle="dropdown"
-                                aria-expanded="false"><b>...</b>
+                                aria-expanded="false"><b>. . .</b>
                         </button>
                         <ul className="dropdown-menu dropdown-menu-dark text-center">
                             <li className="mb-2" onClick={this.changeOpen}><b>Bearbeiten</b></li>
@@ -114,7 +112,6 @@ export default class Board extends React.Component {
                     name={this.state.name}
                     onClose={this.onClose}
                     changeName={this.changeName}
-                    changeOpen={this.changeOpen}
                     confirmBoard={this.confirmBoard}
                 />
             </div>

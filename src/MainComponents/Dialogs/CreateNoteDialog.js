@@ -27,13 +27,13 @@ export default class CreateNoteDialog extends React.Component{
                     <div className="mb-3">
                         <label className="fs-5" htmlFor="startDate">Start Tag</label>
                         <div className="input-group">
-                            <input type="date" className="form-control" onChange={changeContentState} placeholder="" name="startDate" />
+                            <input type="date" value={content.startDate} className="form-control" onChange={changeContentState} placeholder="" name="startDate" />
                         </div>
                     </div>
                     <div className="mb-3">
                         <label className="fs-5" htmlFor="endDate">End Tag</label>
                         <div className="input-group">
-                            <input type="date" className="form-control" onChange={changeContentState} placeholder="" name="endDate" />
+                            <input type="date" value={content.endDate} className="form-control" onChange={changeContentState} placeholder="" name="endDate" />
                         </div>
                     </div>
                </Modal.Body>
