@@ -10,6 +10,7 @@ export default class LogIn extends React.Component {
                         <div className="card shadow py-3 px-2">
                             <div className="card-body">
                                 <div className="mb-3">
+                                    {this.props.logInWarning && <p className="text-danger">Password oder Benutzername stimmen nicht</p>}
                                     <label className="fs-5" htmlFor="userName">Benutzername</label>
                                     <div className="input-group">
                                         <input name="userName" type="text" className="form-control"
